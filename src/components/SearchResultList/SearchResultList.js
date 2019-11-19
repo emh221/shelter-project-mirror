@@ -1,6 +1,7 @@
 import React from 'react';
 import './SearchResultList.css';
 import SearchResult from "../SearchResult/SearchResult";
+import APIWrapper from '../../APIWrapper';
 
 class SearchResultList extends React.Component {
 

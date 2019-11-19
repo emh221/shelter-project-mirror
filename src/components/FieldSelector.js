@@ -6,6 +6,17 @@ import { ThemeContext } from '../ThemeContext';
 import Section from './Section';
 import APIWrapper from "../APIWrapper.js";
 import InputLabel from './InputLabel';
+import { UrlContext} from '../UrlContext'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect
+} from "react-router-dom";
+import Shelter from './shelter_info';
+import { useHistory } from "react-router-dom";
+
 
 
 const APIKey = process.env.REACT_APP_211_API_KEY
@@ -13,6 +24,7 @@ const API = new APIWrapper(APIKey)
 
 class FieldSelector extends React.Component {
   static contextType = ThemeContext;
+  static urlPath = UrlContext;
 
   async componentDidMount() {
     await API.initialize()
@@ -253,15 +265,26 @@ class FieldSelector extends React.Component {
         >
           Your location
         </button>
-
-        <button
-          onClick={this.goBehavior}
-        >
-          Go
-        </button>
+        <GoButton/>
+        <Router>
+        </Router>
       </div>
     );
   }
+}
+
+function GoButton(props) {
+  let history = useHistory();
+
+  function handleClick() {
+    history.push("/info");
+  }
+
+  return (
+    <button type="button" onClick={handleClick}>
+      Go
+    </button>
+  );
 }
 
 export default FieldSelector;

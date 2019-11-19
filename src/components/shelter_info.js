@@ -1,5 +1,5 @@
 import React from 'react';
-import './shelter_info.scss';
+import '../Assets/Shelter_info.scss';
 
 const Shelter = ({Name, Address, Website, Resources, Contact}) => (
     <div className="shelterCard">
