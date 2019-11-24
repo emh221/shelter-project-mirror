@@ -74,7 +74,10 @@ class App extends React.Component {
           <div id='main-container'>
             Main Container
             <Route exact path="/" component={FieldSelector} />
-            <Route path="/info"  component={Shelter} />
+            <Route 
+              path="/info" 
+              component = {Shelter}
+            />
 
           </div>
 
