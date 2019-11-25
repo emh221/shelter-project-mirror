@@ -181,15 +181,17 @@ class FieldSelector extends React.Component {
     await this.setState({ doValidation: true })
     await this.setState({ doValidation: false })
 
-    // REMOVE! JUST FOR DEBUG PURPOSES
+    // REMOVE! JUST FOR DEBUG PURPOSES. no u
     await this.sleep(2000)
     console.log({
       service: this.state.service,
       gender: this.state.gender,
       age: this.state.age,
       zip: this.state.zip,
-      county: this.state.county
+      county: this.state.county,
     })
+    
+
   }
 
   render() {
@@ -265,9 +267,7 @@ class FieldSelector extends React.Component {
         >
           Your location
         </button>
-        <GoButton/>
-        <Router>
-        </Router>
+        <GoButton state={this.state} goBehavior={this.goBehavior}/>
       </div>
     );
   }
@@ -275,9 +275,12 @@ class FieldSelector extends React.Component {
 
 function GoButton(props) {
   let history = useHistory();
-
   function handleClick() {
-    history.push("/info");
+    props.goBehavior();
+      if(props.state.service && props.state.gender && props.state.age && props.state.zip && props.state.county){
+        history.push("/info");
+      }
+    
   }
 
   return (
