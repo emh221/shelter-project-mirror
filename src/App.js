@@ -21,6 +21,8 @@ import Shelter from './components/shelter_info'
 import { useHistory } from "react-router-dom";
 import SearchResultList from './components/SearchResultList/SearchResultList';
 
+
+
 const navbar = {};
 navbar.brand = {linkTo: "#", text: "Portland Shelters"};
 navbar.links = [
@@ -41,16 +43,27 @@ const APIKey = process.env.REACT_APP_211_API_KEY
 const API = new APIWrapper(APIKey)
 
 class App extends React.Component {
+  constructor(props){
+    super(props)
+    
+    this.state = {
+      themeColor: 'light',
+      sessionID: null,
+      categories: [],
+      urlPath: '/',
+      setUrl : this.setUrl,
+      apiData : ' '
+    }
+
+    //bind fucntion to App.js 
+    this.handleApiDataChange = this.handleApiDataChange.bind(this)
+      
+
+  }
+
+  handleApiDataChange = apiData => this.setState({ apiData: apiData })
   setUrl = url => {
     this.setState({urlPath: url})
-  }; 
-
-  state = {
-    themeColor: 'light',
-    sessionID: null,
-    categories: [],
-    urlPath: '/',
-    setUrl : this.setUrl
   }
 
   render() {
@@ -73,7 +86,9 @@ class App extends React.Component {
           </div>
           <div id='main-container'>
             Main Container
-            <Route exact path="/" component={FieldSelector} />
+            <Route exact path="/" 
+              component={ () => <FieldSelector state ={this.state} handleApiDataChange={this.handleApiDataChange} />}
+              />
             <Route 
               path="/info" 
               component = {Shelter}

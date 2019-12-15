@@ -270,7 +270,9 @@ class FieldSelector extends React.Component {
         >
           Your location
         </button>
-        <GoButton state={this.state} goBehavior={this.goBehavior} validAge={this.validAge} validCounty={this.validCounty} validGender={this.validGender} validZIP={this.validZIP}/>
+        <GoButton state={this.state} goBehavior={this.goBehavior} validAge={this.validAge} validCounty={this.validCounty} validGender={this.validGender} validZIP={this.validZIP}
+          appProps={this.props.state} handleApiDataChange={this.props.handleApiDataChange}
+        />
       </div>
     );
   }
@@ -282,6 +284,8 @@ function GoButton(props) {
     props.goBehavior();
     //Probably not the best way to check for valid states
       if(props.validCounty(props.state.county).valid &&  props.validGender(props.state.gender).valid && props.validAge(props.state.age).valid && props.validZIP(props.state.zip).valid){
+        props.handleApiDataChange("Trevor is love Trevor is life")
+        console.log(props.appProps)
         history.push("/info");
       }
   }
