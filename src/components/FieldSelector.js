@@ -112,6 +112,9 @@ class FieldSelector extends React.Component {
         // TODO: we'll probably want to take action here to resolve the error
         console.log(err)
       })
+    else
+      return
+    
   }
 
   validZIP(zip) {
@@ -267,7 +270,7 @@ class FieldSelector extends React.Component {
         >
           Your location
         </button>
-        <GoButton state={this.state} goBehavior={this.goBehavior}/>
+        <GoButton state={this.state} goBehavior={this.goBehavior} validAge={this.validAge} validCounty={this.validCounty} validGender={this.validGender} validZIP={this.validZIP}/>
       </div>
     );
   }
@@ -277,10 +280,10 @@ function GoButton(props) {
   let history = useHistory();
   function handleClick() {
     props.goBehavior();
-      if(props.state.service && props.state.gender && props.state.age && props.state.zip && props.state.county){
+    //Probably not the best way to check for valid states
+      if(props.validCounty(props.state.county).valid &&  props.validGender(props.state.gender).valid && props.validAge(props.state.age).valid && props.validZIP(props.state.zip).valid){
         history.push("/info");
       }
-    
   }
 
   return (
