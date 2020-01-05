@@ -56,8 +56,12 @@ class FieldSelector extends React.Component {
 
     this.findLocation = this.findLocation.bind(this)
     this.goBehavior = this.goBehavior.bind(this)
+    this.validate = this.validate.bind(this)
   }
 
+  validate(){
+    return ()
+  }
   handleServiceChange = service => this.setState({ service: service })
 
   validGender(gender) {
@@ -185,7 +189,6 @@ class FieldSelector extends React.Component {
     await this.setState({ doValidation: false })
 
     // REMOVE! JUST FOR DEBUG PURPOSES. no u
-    await this.sleep(2000)
     console.log({
       service: this.state.service,
       gender: this.state.gender,
@@ -271,21 +274,23 @@ class FieldSelector extends React.Component {
           Your location
         </button>
         <GoButton state={this.state} goBehavior={this.goBehavior} validAge={this.validAge} validCounty={this.validCounty} validGender={this.validGender} validZIP={this.validZIP}
-          appProps={this.props.state} handleApiDataChange={this.props.handleApiDataChange}
+          changeAPIData={this.props.changeAPIData}
         />
       </div>
     );
   }
 }
 
-function GoButton(props) {
+ function GoButton(props) {
+  
   let history = useHistory();
-  function handleClick() {
-    props.goBehavior();
+  
+  async function handleClick() {
+    await props.goBehavior();
     //Probably not the best way to check for valid states
       if(props.validCounty(props.state.county).valid &&  props.validGender(props.state.gender).valid && props.validAge(props.state.age).valid && props.validZIP(props.state.zip).valid){
-        props.handleApiDataChange("Trevor is love Trevor is life")
-        console.log(props.appProps)
+        let data = "balls";
+        await props.changeAPIData(data);
         history.push("/info");
       }
   }
@@ -295,6 +300,7 @@ function GoButton(props) {
       Go
     </button>
   );
+
 }
 
 export default FieldSelector;

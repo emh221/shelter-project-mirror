@@ -57,11 +57,12 @@ class App extends React.Component {
 
     //bind fucntion to App.js 
     this.handleApiDataChange = this.handleApiDataChange.bind(this)
-      
-
   }
 
-  handleApiDataChange = apiData => this.setState({ apiData: apiData })
+  handleApiDataChange(data){
+    this.setState({apiData: data})
+  }
+  
   setUrl = url => {
     this.setState({urlPath: url})
   }
@@ -86,13 +87,17 @@ class App extends React.Component {
           </div>
           <div id='main-container'>
             Main Container
-            <Route exact path="/" 
-              component={ () => <FieldSelector state ={this.state} handleApiDataChange={this.handleApiDataChange} />}
-              />
+            <Route
+              exact path="/" 
+            >
+              <FieldSelector changeAPIData={this.handleApiDataChange}/>
+            </Route>
+              
             <Route 
               path="/info" 
-              component = {Shelter}
-            />
+            >
+              <Shelter appProps={this.state}/>
+            </Route>
 
           </div>
 
