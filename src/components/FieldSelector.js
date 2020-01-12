@@ -274,6 +274,7 @@ class FieldSelector extends React.Component {
           Your location
         </button>
         <GoButton goBehavior={this.goBehavior} changeAPIData={this.props.changeAPIData} isPageDataValid={this.isPageDataValid}
+          fieldSelectorState={this.state}
         />
       </div>
     );
