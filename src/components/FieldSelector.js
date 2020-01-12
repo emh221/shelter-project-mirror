@@ -16,7 +16,7 @@ import {
 } from "react-router-dom";
 import Shelter from './shelter_info';
 import { useHistory } from "react-router-dom";
-
+import GoButton from './GoButton/GoButton.js';
 
 
 const APIKey = process.env.REACT_APP_211_API_KEY
@@ -56,12 +56,9 @@ class FieldSelector extends React.Component {
 
     this.findLocation = this.findLocation.bind(this)
     this.goBehavior = this.goBehavior.bind(this)
-    this.validate = this.validate.bind(this)
+    this.isPageDataValid = this.isPageDataValid.bind(this)
   }
 
-  validate(){
-    return ()
-  }
   handleServiceChange = service => this.setState({ service: service })
 
   validGender(gender) {
@@ -196,8 +193,11 @@ class FieldSelector extends React.Component {
       zip: this.state.zip,
       county: this.state.county,
     })
-    
+  }
 
+  isPageDataValid(){
+    return this.validCounty(this.state.county).valid &&  this.validGender(this.state.gender).valid 
+    && this.validAge(this.state.age).valid && this.validZIP(this.state.zip).valid
   }
 
   render() {
@@ -273,34 +273,11 @@ class FieldSelector extends React.Component {
         >
           Your location
         </button>
-        <GoButton state={this.state} goBehavior={this.goBehavior} validAge={this.validAge} validCounty={this.validCounty} validGender={this.validGender} validZIP={this.validZIP}
-          changeAPIData={this.props.changeAPIData}
+        <GoButton goBehavior={this.goBehavior} changeAPIData={this.props.changeAPIData} isPageDataValid={this.isPageDataValid}
         />
       </div>
     );
   }
-}
-
- function GoButton(props) {
-  
-  let history = useHistory();
-  
-  async function handleClick() {
-    await props.goBehavior();
-    //Probably not the best way to check for valid states
-      if(props.validCounty(props.state.county).valid &&  props.validGender(props.state.gender).valid && props.validAge(props.state.age).valid && props.validZIP(props.state.zip).valid){
-        let data = "balls";
-        await props.changeAPIData(data);
-        history.push("/info");
-      }
-  }
-
-  return (
-    <button type="button" onClick={handleClick}>
-      Go
-    </button>
-  );
-
 }
 
 export default FieldSelector;
